@@ -1,6 +1,7 @@
 import subprocess
 from datetime import datetime 
 from discord_webhook import DiscordEmbed, DiscordWebhook 
+import time 
 import io 
 
 
@@ -37,8 +38,21 @@ def fetch_devices():
 
 def monitor():
     network_patch = fetch_devices()
-    for name, ip, mac in zip(network_patch["device_name"], network_patch["ip_address"], network_patch["mac_address"]):
-        print(name, ip, mac) # check each trio and if any ping does not respond then call the send_alert() method and pass the trio's info inside of that method
 
-monitor()
+    while True:
+        active_patch = fetch_devices()
+
+        for name, ip, mac in zip(network_patch["device_name"], network_patch["ip_address"], network_patch["mac_address"]):
+            if name in active_patch["device_name"]:
+                print(f"[+] {name} is online...Swinging back for another run")
+                time.sleep(2.5)
+                continue 
+
+            else:
+                send_alert("https://discord.com/api/webhooks/849340413772824606/uzaaqScO24WIH9Uibe-1iIrIhgMKaXHjmrUpoj-RHWdWqnWpML7vrE2HAftpymX6POw_", name, ip, mac)
+                time.sleep(1.5)
+                continue 
+
+if __name__ == "__main__":
+    monitor()
     
