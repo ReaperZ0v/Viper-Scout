@@ -49,7 +49,7 @@ def monitor():
                 continue 
 
             else:
-                send_alert("https://discord.com/api/webhooks/849340413772824606/uzaaqScO24WIH9Uibe-1iIrIhgMKaXHjmrUpoj-RHWdWqnWpML7vrE2HAftpymX6POw_", name, ip, mac)
+                send_alert("DISCORD-WEBHOOK-URL", name, ip, mac)
                 time.sleep(1.5)
                 continue 
 
